@@ -29,7 +29,7 @@ react-lerna-mono-repo/
 
 - Node.js 16+ and npm/yarn/pnpm
 - Lerna installed globally (optional, using `npx` is fine)
-- GitHub Copilot access (optional but recommended)
+- GitHub Copilot access
 
 ### Installation
 
