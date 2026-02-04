@@ -1,7 +1,3 @@
-Here’s an improved version of your README that is more informative, structured, and professional:
-
----
-
 # React Monorepo with Lerna & Copilot Practice
 
 A modern monorepo setup using **Lerna**, **React**, and **TypeScript** for practicing collaborative development, package management, and leveraging **GitHub Copilot** for AI-powered coding assistance.
@@ -89,7 +85,3 @@ This repository is designed to help you explore and practice using **GitHub Copi
 ## 📄 License
 
 MIT
-
----
-
-This version is more detailed, includes a clear structure, and adds visual elements like emojis and code blocks for better readability. Let me know if you’d like to include additional sections like **Contributing**, **Common Commands**, or **Troubleshooting**.
