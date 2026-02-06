@@ -876,3 +876,709 @@ service.addUser({ id: 1, name: "John", email: "john@example.com" });
 8. **✅ Learn npm/yarn scripts (like Maven phases)**
 
 Remember: Your **Java discipline** (testing, documentation, clean code) is your superpower. JavaScript's flexibility needs your structure. You're not starting from zero—you're **adding a powerful tool to your existing skillset**.
+
+# **Java-to-JavaScript ES6+ Mental Map with Real Examples**
+
+## **1. Variables & Scoping**
+
+### **Java (Static, Block Scoped)**
+```java
+// Declaration must include type
+String name = "John";
+final String CONSTANT = "IMMUTABLE";  // Constant
+int count = 10;                       // Primitive
+Integer boxedCount = 10;              // Boxed (object)
+
+// Scope is block-based
+{
+    int blockScoped = 5;  // Only accessible in this block
+}
+// blockScoped is not accessible here
+```
+
+### **JavaScript ES6+ (Dynamic, Lexical Scoped)**
+```javascript
+// var (avoid - function scoped, hoisted)
+var oldWay = "avoid";  // ❌ Don't use in ES6+
+
+// let (block scoped, can be reassigned)
+let name = "John";
+name = "Jane";  // ✅ Can reassign
+
+// const (block scoped, cannot reassign)
+const PI = 3.14159;
+// PI = 3.14;  // ❌ Error: Assignment to constant
+
+// BUT objects/arrays are still mutable!
+const person = { name: "John" };
+person.name = "Jane";  // ✅ Allowed - mutating property
+// person = { name: "Jane" };  // ❌ Error - reassigning variable
+
+// Block scope example
+{
+    let blockScoped = 5;
+    const alsoBlockScoped = 10;
+}
+// console.log(blockScoped);  // ❌ ReferenceError
+```
+
+## **2. Data Types & Structures**
+
+### **Java (Strongly Typed, Explicit)**
+```java
+// Primitives
+int age = 30;
+double price = 19.99;
+boolean isActive = true;
+char grade = 'A';
+
+// Objects
+String name = "John";
+Integer count = Integer.valueOf(10);  // Boxed
+
+// Arrays (fixed size)
+int[] numbers = {1, 2, 3};
+String[] names = new String[5];
+
+// Collections (dynamic)
+List<String> list = new ArrayList<>();
+list.add("item1");
+Map<String, Integer> map = new HashMap<>();
+map.put("key", 1);
+Set<String> set = new HashSet<>();
+```
+
+### **JavaScript (Dynamically Typed)**
+```javascript
+// Primitive types (6+1)
+let str = "Hello";          // string
+let num = 42;              // number (includes integers & floats)
+let bool = true;           // boolean
+let nothing = null;        // null (intentionally empty)
+let notDefined = undefined; // undefined (never assigned)
+let sym = Symbol("id");    // symbol (ES6)
+let bigInt = 9007199254740991n; // BigInt (ES2020)
+
+// Complex types
+let obj = { key: "value" };
+let arr = [1, 2, 3];
+let func = function() {};
+let date = new Date();
+
+// Type checking
+typeof "hello"     // "string"
+typeof 42         // "number"
+typeof true       // "boolean"
+typeof undefined  // "undefined"
+typeof null       // "object" (⚠️ historical bug)
+typeof {}         // "object"
+typeof []         // "object" (use Array.isArray())
+typeof Symbol()   // "symbol"
+typeof 42n        // "bigint"
+```
+
+## **3. Collections & Data Structures**
+
+### **Arrays**
+```javascript
+// Java-like arrays (fixed) vs JavaScript arrays (dynamic)
+
+// Java
+// String[] arr = new String[3];
+// arr[0] = "a";
+
+// JavaScript (much more flexible)
+const arr = [1, 2, 3];
+
+// Common operations with ES6+ methods
+const doubled = arr.map(x => x * 2);        // [2, 4, 6]
+const even = arr.filter(x => x % 2 === 0);  // [2]
+const sum = arr.reduce((acc, x) => acc + x, 0); // 6
+const found = arr.find(x => x > 1);         // 2
+const hasTwo = arr.includes(2);             // true
+
+// Spread operator (ES6)
+const newArr = [...arr, 4, 5];  // [1, 2, 3, 4, 5]
+const [first, ...rest] = arr;   // first=1, rest=[2, 3]
+
+// Array.from (ES6) - create from array-like objects
+const arrayLike = { 0: 'a', 1: 'b', length: 2 };
+const realArray = Array.from(arrayLike);  // ['a', 'b']
+
+// Array.of (ES6) - create array from arguments
+Array.of(1, 2, 3);  // [1, 2, 3] (vs new Array(1,2,3))
+```
+
+### **Maps & Sets (ES6)**
+```javascript
+// Map (like Java HashMap but keys can be any type)
+const map = new Map();
+map.set('key', 'value');
+map.set({ id: 1 }, 'object key');  // Object as key!
+map.get('key');  // 'value'
+map.has('key');  // true
+map.size;        // 2
+map.delete('key');
+map.clear();
+
+// Iteration
+for (const [key, value] of map) { /* ... */ }
+map.forEach((value, key) => { /* ... */ });
+
+// Set (like Java HashSet)
+const set = new Set([1, 2, 3, 3, 2]);  // [1, 2, 3]
+set.add(4);
+set.has(2);  // true
+set.size;    // 4
+set.delete(1);
+
+// WeakMap & WeakSet (ES6) - for memory management
+const weakMap = new WeakMap();  // Keys must be objects
+const obj = {};
+weakMap.set(obj, 'private data');
+// Automatically cleaned up when obj is garbage collected
+```
+
+## **4. Functions & Methods**
+
+### **Java (Methods in Classes)**
+```java
+// Method in class
+public class Calculator {
+    // Regular method
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    // Static method
+    public static double multiply(double a, double b) {
+        return a * b;
+    }
+    
+    // Method overloading (same name, different params)
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+    
+    // Lambda (Java 8+)
+    Function<Integer, Integer> square = x -> x * x;
+}
+```
+
+### **JavaScript (Functions are First-Class)**
+```javascript
+// 1. Function declaration (hoisted)
+function add(a, b) {
+    return a + b;
+}
+
+// 2. Function expression (not hoisted)
+const subtract = function(a, b) {
+    return a - b;
+};
+
+// 3. Arrow function (ES6) - no 'this' binding
+const multiply = (a, b) => a * b;
+const square = x => x * x;
+const noArgs = () => console.log('hi');
+const multiLine = (a, b) => {
+    const result = a + b;
+    return result * 2;
+};
+
+// 4. Default parameters (ES6)
+function greet(name = 'Guest', greeting = 'Hello') {
+    return `${greeting}, ${name}!`;
+}
+
+// 5. Rest parameters (ES6) - like Java varargs
+function sum(...numbers) {
+    return numbers.reduce((total, n) => total + n, 0);
+}
+sum(1, 2, 3, 4);  // 10
+
+// 6. Higher-order functions
+function createMultiplier(factor) {
+    return function(x) {
+        return x * factor;
+    };
+}
+const double = createMultiplier(2);
+double(5);  // 10
+
+// 7. Method shorthand in objects (ES6)
+const calculator = {
+    add(a, b) {  // No 'function' keyword
+        return a + b;
+    },
+    // Computed property names (ES6)
+    [`multiplyBy${n}`](x) {
+        return x * n;
+    }
+};
+```
+
+## **5. Objects & Classes**
+
+### **Java (Class-based OOP)**
+```java
+public class Person {
+    private String name;
+    private int age;
+    
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}
+
+// Inheritance
+public class Employee extends Person {
+    private String department;
+    
+    public Employee(String name, int age, String dept) {
+        super(name, age);
+        this.department = dept;
+    }
+}
+
+// Interface
+public interface Printable {
+    void print();
+}
+```
+
+### **JavaScript (Prototype-based with ES6 Class Syntax)**
+```javascript
+// ES6 Class syntax (syntactic sugar over prototypes)
+class Person {
+    // Private fields (ES2022)
+    #secret = "hidden";
+    
+    // Constructor (like Java constructor)
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Instance method
+    greet() {
+        return `Hello, I'm ${this.name}`;
+    }
+    
+    // Getter (computed property)
+    get birthYear() {
+        return new Date().getFullYear() - this.age;
+    }
+    
+    // Setter
+    set birthYear(year) {
+        this.age = new Date().getFullYear() - year;
+    }
+    
+    // Static method
+    static compare(p1, p2) {
+        return p1.age - p2.age;
+    }
+    
+    // Private method (ES2022)
+    #getSecret() {
+        return this.#secret;
+    }
+}
+
+// Inheritance
+class Employee extends Person {
+    constructor(name, age, department) {
+        super(name, age);  // Must call super first
+        this.department = department;
+    }
+    
+    // Method override
+    greet() {
+        return `${super.greet()} from ${this.department}`;
+    }
+}
+
+// Object literal with enhanced features (ES6+)
+const person = {
+    // Property shorthand
+    name,  // if variable 'name' exists
+    age,
+    
+    // Method shorthand
+    greet() {
+        return `Hi, ${this.name}`;
+    },
+    
+    // Computed property names
+    [`id_${Date.now()}`]: 'unique',
+    
+    // Spread in object literals (ES2018)
+    ...otherProps
+};
+
+// Object destructuring (ES6)
+const { name, age: yearsOld } = person;
+// name = person.name, yearsOld = person.age
+
+// Optional chaining (ES2020)
+const department = employee?.company?.department ?? 'Unknown';
+// Like: employee != null && employee.company != null ? 
+//        employee.company.department : 'Unknown'
+```
+
+## **6. Asynchronous Programming**
+
+### **Java (Threads/Futures)**
+```java
+// Java 5-7: Threads & Executors
+ExecutorService executor = Executors.newSingleThreadExecutor();
+Future<String> future = executor.submit(() -> {
+    Thread.sleep(1000);
+    return "Result";
+});
+// Blocks thread until complete
+String result = future.get();
+
+// Java 8+: CompletableFuture (more like JS Promises)
+CompletableFuture.supplyAsync(() -> {
+    // Async operation
+    return "Data";
+}).thenApply(data -> {
+    return data + " processed";
+}).thenAccept(result -> {
+    System.out.println(result);
+});
+```
+
+### **JavaScript (Event Loop, Promises, Async/Await)**
+```javascript
+// 1. Callbacks (old way - avoid "callback hell")
+function getData(callback) {
+    setTimeout(() => callback("data"), 1000);
+}
+
+// 2. Promises (ES6)
+function fetchData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            Math.random() > 0.5 
+                ? resolve("Success data") 
+                : reject(new Error("Failed"));
+        }, 1000);
+    });
+}
+
+// Promise chaining (like CompletableFuture)
+fetchData()
+    .then(data => {
+        console.log(data);
+        return process(data);
+    })
+    .then(result => {
+        console.log(result);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    })
+    .finally(() => {
+        console.log("Cleanup");
+    });
+
+// Promise utilities (ES6+)
+Promise.all([promise1, promise2])     // All succeed
+    .then(([result1, result2]) => { /* ... */ });
+
+Promise.race([promise1, promise2])    // First to complete
+    .then(firstResult => { /* ... */ });
+
+Promise.allSettled([promise1, promise2]) // All complete (ES2020)
+    .then(results => { /* ... */ });
+
+// 3. Async/Await (ES2017) - Write async code like sync
+async function getUserData(userId) {
+    try {
+        // These run sequentially but don't block main thread
+        const user = await fetchUser(userId);
+        const posts = await fetchPosts(user.id);
+        const comments = await fetchComments(posts[0].id);
+        
+        return { user, posts, comments };
+    } catch (error) {
+        console.error("Failed:", error);
+        throw error;
+    } finally {
+        console.log("Cleanup");
+    }
+}
+
+// Top-level await (ES2022) - in modules only
+const data = await fetchData();
+console.log(data);
+```
+
+## **7. Modules & Imports**
+
+### **Java (Packages)**
+```java
+// Import statements
+import java.util.List;
+import java.util.ArrayList;
+import static java.lang.Math.PI;
+
+// Export via public class
+package com.example;
+public class MyClass { /* ... */ }
+```
+
+### **JavaScript ES6 Modules**
+```javascript
+// Exporting from module.js
+// 1. Named exports (multiple per module)
+export const PI = 3.14159;
+export function calculateArea(radius) {
+    return PI * radius * radius;
+}
+export class Circle { /* ... */ }
+
+// 2. Default export (one per module)
+export default function(config) {
+    return new App(config);
+}
+
+// 3. Export list
+export { PI, calculateArea as area, Circle };
+
+// 4. Re-exporting
+export { default as Button } from './Button.js';
+
+// Importing in another file
+// 1. Named imports
+import { PI, calculateArea } from './math.js';
+import { calculateArea as area } from './math.js';
+
+// 2. Default import
+import App from './App.js';
+
+// 3. Namespace import (all exports)
+import * as MathUtils from './math.js';
+MathUtils.PI;  // Access
+
+// 4. Mixed imports
+import App, { PI } from './module.js';
+
+// 5. Dynamic import (ES2020) - like Java's Class.forName()
+const module = await import('./module.js');
+module.calculateArea(5);
+```
+
+## **8. Error Handling**
+
+### **Java (Checked/Unchecked Exceptions)**
+```java
+try {
+    // Code that might throw
+    FileReader file = new FileReader("test.txt");
+} catch (FileNotFoundException e) {
+    // Handle specific exception
+    System.out.println("File not found: " + e.getMessage());
+} catch (IOException e) {
+    // Handle more general exception
+    e.printStackTrace();
+} finally {
+    // Always execute
+    System.out.println("Cleanup");
+}
+
+// Custom exception
+public class ValidationException extends Exception {
+    public ValidationException(String message) {
+        super(message);
+    }
+}
+```
+
+### **JavaScript (Try/Catch with Optional Finally)**
+```javascript
+try {
+    // Code that might throw
+    const result = riskyOperation();
+    console.log(result);
+} catch (error) {
+    // Handle error (only one catch block)
+    if (error instanceof TypeError) {
+        console.error("Type error:", error.message);
+    } else if (error instanceof RangeError) {
+        console.error("Range error:", error.message);
+    } else {
+        console.error("Unknown error:", error);
+    }
+} finally {
+    // Always executes
+    cleanup();
+}
+
+// Error object
+const error = new Error("Something went wrong");
+error.name = "CustomError";
+error.code = 500;
+
+// Optional catch binding (ES2019)
+try {
+    // ...
+} catch {  // No parameter needed if not used
+    console.log("An error occurred");
+}
+
+// Throw expressions (ES2022)
+const value = input || throw new Error("Input required");
+```
+
+## **9. String Manipulation**
+
+### **Java (String class)**
+```java
+String str = "Hello";
+str.concat(" World");  // New string
+str.toUpperCase();
+str.substring(1, 3);
+String.format("Name: %s, Age: %d", name, age);
+```
+
+### **JavaScript ES6+ (Template Literals)**
+```javascript
+// Template literals (backticks)
+const name = "John";
+const age = 30;
+
+// Multi-line strings
+const message = `Hello ${name},
+You are ${age} years old.
+Next year you'll be ${age + 1}.`;
+
+// Tagged templates (advanced)
+function highlight(strings, ...values) {
+    return strings.reduce((result, str, i) => 
+        `${result}${str}<mark>${values[i] || ''}</mark>`, '');
+}
+const result = highlight`Hello ${name}, age ${age}`;
+
+// String methods (ES6+)
+const str = "Hello World";
+str.includes("World");     // true (ES6)
+str.startsWith("Hello");   // true (ES6)
+str.endsWith("World");     // true (ES6)
+str.repeat(3);             // "Hello WorldHello WorldHello World" (ES6)
+str.padStart(15, "-");     // "----Hello World" (ES2017)
+str.padEnd(15, "-");       // "Hello World----" (ES2017)
+```
+
+## **10. Iteration & Looping**
+
+### **Java (Traditional Loops)**
+```java
+// For loop
+for (int i = 0; i < 10; i++) { /* ... */ }
+
+// Enhanced for (foreach)
+for (String item : collection) { /* ... */ }
+
+// While loop
+while (condition) { /* ... */ }
+
+// Iterators
+Iterator<String> it = list.iterator();
+while (it.hasNext()) {
+    String item = it.next();
+}
+```
+
+### **JavaScript ES6+**
+```javascript
+// For loop (same as Java)
+for (let i = 0; i < 10; i++) { /* ... */ }
+
+// For...of (iterate values - ES6)
+const arr = [1, 2, 3];
+for (const value of arr) {
+    console.log(value);  // 1, 2, 3
+}
+
+// For...in (iterate keys - use with caution)
+const obj = { a: 1, b: 2 };
+for (const key in obj) {
+    console.log(key);  // "a", "b"
+}
+
+// Array iteration methods (functional style)
+arr.forEach((value, index) => { /* ... */ });
+arr.map(x => x * 2);
+arr.filter(x => x > 1);
+arr.reduce((sum, x) => sum + x, 0);
+
+// Iterators & Generators (ES6)
+const iterable = {
+    [Symbol.iterator]() {
+        let count = 0;
+        return {
+            next() {
+                return count < 3 
+                    ? { value: count++, done: false }
+                    : { value: undefined, done: true };
+            }
+        };
+    }
+};
+
+// Generator function (ES6)
+function* numberGenerator() {
+    yield 1;
+    yield 2;
+    yield 3;
+}
+const gen = numberGenerator();
+gen.next();  // { value: 1, done: false }
+```
+
+## **Quick Reference Cheatsheet**
+
+| Java Concept | JavaScript ES6+ Equivalent |
+|-------------|---------------------------|
+| `ArrayList<String>` | `Array` or `new Array()` |
+| `HashMap<K,V>` | `Map` or `Object` |
+| `HashSet<T>` | `Set` |
+| `Thread/Runnable` | `Promise` + `async/await` |
+| `synchronized` | No direct equivalent (use locks in Node.js) |
+| `@Override` | Not needed (prototype chain) |
+| `interface` | Not needed (duck typing) |
+| `abstract class` | Can mimic with factory functions |
+| `enum` | `Object.freeze()` on object |
+| `try-catch-finally` | Same but no checked exceptions |
+| `import package.*` | `import * as module` |
+| `public/private/protected` | `#private` (ES2022) / conventions |
+| `String.format()` | Template literals |
+| `System.out.println()` | `console.log()` |
+| `instanceof` | `instanceof` or `typeof` |
+| `null` | `null` or `undefined` |
+| `varargs (T...)` | Rest parameters `(...args)` |
+
+## **Key Mindset Shifts for Java Developers:**
+
+1. **From "Everything's a class"** → "Functions and objects are primary"
+2. **From "Compile-time safety"** → "Runtime flexibility with optional TypeScript"
+3. **From "Design patterns required"** → "Patterns emerge from language features"
+4. **From "Thread-based concurrency"** → "Event loop + non-blocking I/O"
+5. **From "Inheritance hierarchies"** → "Composition and delegation"
+6. **From "Verbose getters/setters"** → "Direct property access with getters/setters as needed"
+7. **From "Checked exceptions"** → "Error-first callbacks or Promise rejections"
+
+Remember: JavaScript's flexibility is both its strength and weakness. Your Java discipline (testing, documentation, clear architecture) will serve you well in JavaScript projects.
