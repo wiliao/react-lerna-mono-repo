@@ -1,15 +1,31 @@
 {
-    "name":  "@tuomo/app",
-    "version":  "0.1.0",
-    "description":  "",
-    "main":  "index.js",
-    "scripts":  {
-                    "test":  "echo \"Error: no test specified\" \u0026\u0026 exit 1"
-                },
-    "keywords":  [
-
-                 ],
-    "author":  "",
-    "license":  "ISC",
-    "type":  "commonjs"
+  "name": "@tuomo/app",
+  "version": "0.1.0",
+  "description": "JavaScript concepts playground",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "lint": "eslint . --ext .js,.mjs",
+    "format": "prettier --write \"src/**/*.{js,mjs,json}\""
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "eslint": "^8.57.1",
+    "jest": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "prettier": "^3.8.1"
+  },
+  "keywords": [
+    "javascript",
+    "practice",
+    "concepts"
+  ],
+  "author": "Will Liao",
+  "license": "MIT",
+  "dependencies": {
+    "@tuomo/common": "workspace:*"
+  }
 }

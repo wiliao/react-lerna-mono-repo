@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
     "lerna": "^8.2.4"
   },
   "scripts": {
