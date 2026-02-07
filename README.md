@@ -176,11 +176,28 @@ npm install
 ## How to reset environment
 
 ### 1. Delete corrupted node_modules and lockfile
+
 Remove-Item -Recurse -Force node_modules -ErrorAction SilentlyContinue
 Remove-Item package-lock.json -ErrorAction SilentlyContinue
 
 ### 2. Clear npm cache (optional but recommended)
+
 npm cache clean --force
 
 ### 3. Reinstall dependencies CORRECTLY
+
 npm install
+
+## How to test
+
+### 1. Write failing test first (TDD)
+
+test('my new concept', () => {
+expect(myFunction()).toBe(expected);
+});
+
+### 2. Implement minimal code to pass
+
+export const myFunction = () => expected;
+
+### 3. Refactor with confidence (tests guard behavior)

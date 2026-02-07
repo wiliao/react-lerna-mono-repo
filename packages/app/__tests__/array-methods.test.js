@@ -1,3 +1,4 @@
+import { test, expect } from "@jest/globals";
 import { processOrders } from "../src/array-methods.js";
 
 test("processes orders pipeline", () => {
@@ -8,6 +9,10 @@ test("processes orders pipeline", () => {
   ];
 
   const result = processOrders(orders);
-  // (100 * 1.1) + (50 * 1.1) = 165
-  expect(result).toBe(165);
+
+  // ✅ Allow tiny floating-point error (default tolerance: 2 decimal places)
+  expect(result).toBeCloseTo(165);
+
+  // OR be explicit about precision:
+  expect(result).toBeCloseTo(165, 2); // 2 decimal places
 });
