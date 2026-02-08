@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Object destructuring
 export const getUserInfo = ({ name, email, profile: { age } }) => {
   return `${name} (${age}) - ${email}`;

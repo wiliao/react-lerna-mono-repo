@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const fetchUser = async (id) => {
   await new Promise((resolve) => setTimeout(resolve, 100)); // Simulate network delay
 

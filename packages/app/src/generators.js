@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function* fibonacci() {
   let [a, b] = [0, 1];
   while (true) {

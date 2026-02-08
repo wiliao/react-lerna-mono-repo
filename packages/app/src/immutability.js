@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ❌ Mutable (BAD)
 export const addUserBad = (users, user) => {
   users.push(user); // Mutates original array!

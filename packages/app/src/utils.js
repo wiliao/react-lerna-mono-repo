@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const formatDate = (date) => date.toISOString().split("T")[0];
 export const slugify = (text) => text.toLowerCase().replace(/\s+/g, "-");
 

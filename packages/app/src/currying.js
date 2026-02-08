@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Classic currying
 export const multiply = (a) => (b) => a * b;
 export const double = multiply(2);

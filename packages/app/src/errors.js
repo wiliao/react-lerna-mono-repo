@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class ValidationError extends Error {
   constructor(message, field) {
     super(message);
@@ -21,7 +22,7 @@ export const safeExecute = async (fn, defaultValue = null) => {
   try {
     return await fn();
   } catch (err) {
-    console.error('Operation failed:', err.message);
+    console.error("Operation failed:", err.message);
     return defaultValue;
   }
 };

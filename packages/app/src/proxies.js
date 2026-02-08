@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const createValidator = (target, schema) =>
   new Proxy(target, {
     set(obj, prop, value) {

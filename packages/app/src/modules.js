@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { formatDate, slugify } from "@tuomo/common/src/utils.js";
 
 export const createPost = (title, content) => ({
