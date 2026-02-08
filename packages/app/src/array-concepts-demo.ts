@@ -501,10 +501,9 @@ const arrayLike = {
 
 // Convert array-like to real array
 const realArray1 = Array.from(arrayLike);
+console.log("Array.from(arrayLike):", realArray1); // ['a', 'b', 'c']
 const realArray2 = Array.prototype.slice.call(arrayLike);
-const realArray3 = [...(arrayLike as any)]; // Type assertion needed
-
-console.log("Array-like to real array:", realArray1); // ['a', 'b', 'c']
+console.log("Array.prototype.slice.call(arrayLike):", realArray2); // ['a', 'b', 'c']
 
 // ============================================
 // 14. ADDITIONAL ES6+ FEATURES
