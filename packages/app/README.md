@@ -38,19 +38,20 @@ For a **JavaScript practice package**, your current `package.json` works but can
 
 ### 🔑 Key Improvements & Why They Matter for Learning
 
-| Change | Why It Matters for Practice |
-|--------|-----------------------------|
-| **`"type": "module"`** | ✅ Enables modern `import/export` syntax (ESM)<br>❌ Avoids legacy `require()` confusion<br>💡 *Critical for learning modern JS* |
-| **`"main": "src/index.js"`** | ✅ Encourages proper project structure<br>❌ Prevents dumping everything in root |
-| **Added `dev` script** | ✅ Quick feedback loop: `npm run dev` to test concepts instantly |
-| **Jest + watch mode** | ✅ Learn TDD: `npm test:watch` auto-runs tests on save<br>💡 Essential for practicing algorithms/data structures |
-| **ESLint + Prettier** | ✅ Learn industry-standard code quality tools<br>❌ Avoids developing bad habits |
-| **`@tuomo/common` dep** | ✅ Practice importing shared utilities from your monorepo<br>💡 Real-world module composition |
-| **MIT license** | ✅ More permissive than ISC for learning/sharing |
+| Change                       | Why It Matters for Practice                                                                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| **`"type": "module"`**       | ✅ Enables modern `import/export` syntax (ESM)<br>❌ Avoids legacy `require()` confusion<br>💡 _Critical for learning modern JS_ |
+| **`"main": "src/index.js"`** | ✅ Encourages proper project structure<br>❌ Prevents dumping everything in root                                                 |
+| **Added `dev` script**       | ✅ Quick feedback loop: `npm run dev` to test concepts instantly                                                                 |
+| **Jest + watch mode**        | ✅ Learn TDD: `npm test:watch` auto-runs tests on save<br>💡 Essential for practicing algorithms/data structures                 |
+| **ESLint + Prettier**        | ✅ Learn industry-standard code quality tools<br>❌ Avoids developing bad habits                                                 |
+| **`@tuomo/common` dep**      | ✅ Practice importing shared utilities from your monorepo<br>💡 Real-world module composition                                    |
+| **MIT license**              | ✅ More permissive than ISC for learning/sharing                                                                                 |
 
 ---
 
 ### 📂 Recommended Project Structure
+
 ```bash
 packages/app/
 ├── src/
@@ -70,6 +71,7 @@ packages/app/
 ---
 
 ### ⚙️ Minimal Setup Commands (Run in `packages/app`)
+
 ```powershell
 # 1. Install dev tooling
 npm install --save-dev jest jest-environment-node eslint prettier @types/jest
@@ -97,6 +99,7 @@ echo "{
 ---
 
 ### 💡 Learning Workflow Example
+
 ```javascript
 // src/closures.js
 export function createCounter() {
@@ -105,9 +108,9 @@ export function createCounter() {
 }
 
 // __tests__/closures.test.js
-import { createCounter } from '../src/closures.js';
+import { createCounter } from "../src/closures.js";
 
-test('counter increments', () => {
+test("counter increments", () => {
   const counter = createCounter();
   expect(counter()).toBe(1);
   expect(counter()).toBe(2);
@@ -115,6 +118,7 @@ test('counter increments', () => {
 ```
 
 Run tests instantly:
+
 ```powershell
 npm test:watch  # Auto-runs on file save!
 ```
@@ -122,26 +126,32 @@ npm test:watch  # Auto-runs on file save!
 ---
 
 ### ⚠️ Critical: ESM Gotchas to Learn
+
 Since you're using `"type": "module"`, practice these real-world patterns:
 
-| CommonJS (Old) | ESM (Modern) | Why It Matters |
-|----------------|--------------|----------------|
-| `const x = require('y')` | `import x from 'y'` | Syntax difference |
-| `module.exports = x` | `export default x` | Export patterns |
-| `.js` files work | `.js` requires `"type": "module"` | File extension rules |
-| `__dirname` available | Use `import.meta.url` + `path.dirname()` | Path handling differences |
+| CommonJS (Old)           | ESM (Modern)                             | Why It Matters            |
+| ------------------------ | ---------------------------------------- | ------------------------- |
+| `const x = require('y')` | `import x from 'y'`                      | Syntax difference         |
+| `module.exports = x`     | `export default x`                       | Export patterns           |
+| `.js` files work         | `.js` requires `"type": "module"`        | File extension rules      |
+| `__dirname` available    | Use `import.meta.url` + `path.dirname()` | Path handling differences |
 
 ---
 
 ### 🚀 Final Recommendation
+
 **Yes – update your `package.json`** with the version above. This setup:
 
 ✅ Teaches **modern JavaScript** (ESM) not legacy patterns  
 ✅ Includes **essential tooling** (testing/linting) you'll use professionally  
 ✅ Leverages your **monorepo structure** (`@tuomo/common`)  
 ✅ Scales from simple concepts → complex projects  
-✅ Avoids "toy project" pitfalls that create bad habits  
+✅ Avoids "toy project" pitfalls that create bad habits
 
 This isn't over-engineering – it's **professional scaffolding for deliberate practice**. You'll thank yourself when learning async patterns, modules, or testing! 😊
 
 > 💡 **Pro tip**: Start with 1 concept per file (`closures.js`, `promises.js`), write tests FIRST, then implement. This builds muscle memory for real development workflows.
+
+### How to run test
+
+npm test -w @tuomo/app -- **tests**/array-methods.test.js
