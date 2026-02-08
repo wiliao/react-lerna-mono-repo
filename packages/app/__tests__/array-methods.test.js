@@ -136,10 +136,9 @@ describe("processOrders - Enhanced Behavior Validation", () => {
     expect(result.hasLargeOrders).toBe(true);
     expect(result.orderCountByCategory).toEqual({ large: 1, regular: 1 });
 
-    if (result.firstLargeOrder) {
-      expect(result.firstLargeOrder.isLargeOrder).toBe(true);
-      expect(result.firstLargeOrder.totalWithTax).toBeCloseTo(110, 2);
-    }
+    expect(result.firstLargeOrder).toBeDefined();
+    expect(result.firstLargeOrder.isLargeOrder).toBe(true);
+    expect(result.firstLargeOrder.totalWithTax).toBeCloseTo(110, 2);
   });
 
   test("handles edge cases gracefully", () => {
@@ -165,9 +164,8 @@ describe("Utility Functions", () => {
     expect(result.success).toBe(true);
     expect(result.error).toBeNull();
     expect(result.data).not.toBeNull();
-    if (result.data) {
-      expect(result.data.orderCount).toBe(1);
-    }
+    expect(result.data).toBeDefined();
+    expect(result.data.orderCount).toBe(1);
   });
 
   test("validateAndProcessOrders handles error case", () => {

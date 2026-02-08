@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022"],
+    "target": "ES2023",
+    "lib": ["ES2023"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
@@ -17,8 +17,6 @@
     "noEmit": true,
 
     "isolatedModules": true,
-
-    // CRITICAL: Enable these for ts-jest ESM support
     "verbatimModuleSyntax": true
   },
   "include": ["src/**/*", "__tests__/**/*"],
