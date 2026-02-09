@@ -1,8 +1,4 @@
-import {
-  getUserInfo,
-  getFirstAndRest,
-  updateUser,
-} from "../src/destructuring.js";
+import { getUserInfo, updateUser } from "../src/destructuring.js";
 
 test("extracts nested data", () => {
   const user = {

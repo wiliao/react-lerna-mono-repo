@@ -1,4 +1,3 @@
-// packages/app/__tests__/workspace.test.js
 import { version } from "@tuomo/common/src/version.js";
 
 test("workspace linking works", () => {

@@ -152,6 +152,7 @@ This isn't over-engineering – it's **professional scaffolding for deliberate p
 
 > 💡 **Pro tip**: Start with 1 concept per file (`closures.js`, `promises.js`), write tests FIRST, then implement. This builds muscle memory for real development workflows.
 
-### How to run test
+## How to run test
 
-npm test -w @tuomo/app -- **tests**/array-methods.test.js
+#### From MONOREPO ROOT (critical!)
+npm test -w @tuomo/app -- __tests__/async.test.js
