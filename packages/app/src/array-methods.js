@@ -13,8 +13,7 @@
  * @throws {TypeError} If input is not an array
  */
 export const processOrders = (orders) => {
-  // REMOVED DEFAULT PARAMETER (fixes undefined handling)
-  // 1. Input validation with explicit error (NOW CATCHES undefined)
+  // 1. Input validation with explicit error
   if (!Array.isArray(orders)) {
     throw new TypeError("orders parameter must be an array");
   }
@@ -28,50 +27,69 @@ export const processOrders = (orders) => {
     CANCELLED: "cancelled",
   };
 
-  // REMOVED EARLY RETURN BLOCK - critical fix for consistent structure
-  // (Empty arrays now flow through full pipeline to generate complete response object)
-
-  // 3. Data normalization and validation pipeline
-  const processedOrders = orders
+  // 3. Data normalization, validation, and deduplication pipeline
+  const deduplicatedMap = orders
     .filter((order) => order != null)
     .filter((order) =>
       ["id", "status", "total", "customerId"].every(
         (prop) => prop in order && order[prop] != null,
       ),
     )
-    .map((order) => ({
-      ...order,
-      total: Number(order.total),
-      isValid:
-        Number.isFinite(Number(order.total)) &&
-        order.status === STATUSES.COMPLETED,
-    }))
-    .filter(({ isValid, total }) => isValid && total > 0)
+    // ✅ COMBINED VALIDATION + TAX CALCULATION (single efficient pass)
     .map((order) => {
-      const totalWithTax = order.total * (1 + TAX_RATE);
-      const taxAmount = order.total * TAX_RATE;
+      const total = Number(order.total);
+      const totalWithTax = total * (1 + TAX_RATE);
+      const taxAmount = total * TAX_RATE;
       const isLargeOrder = totalWithTax > 100;
+      const isValidId = order.id != null && String(order.id).trim().length > 0;
 
       return {
         ...order,
+        total,
         totalWithTax,
         taxAmount,
         isLargeOrder,
-        isValid: undefined,
+        isValid:
+          isValidId &&
+          Number.isFinite(total) &&
+          total > 0 &&
+          order.status === STATUSES.COMPLETED,
       };
     })
+    .filter(({ isValid }) => isValid) // Remove invalid orders
     .flatMap((order) =>
       order.totalWithTax >= MIN_ORDER_THRESHOLD ? [order] : [],
     )
-    .reduce((uniqueOrders, order) => {
-      if (!uniqueOrders.some((existing) => existing.id === order.id)) {
-        uniqueOrders.push(order);
+    // ✅ DEDUPLICATION: Keep only first occurrence of each ID
+    .reduce((map, order) => {
+      const normalizedId = String(order.id).trim();
+      console.log(
+        `🔍 Checking order ID: ${normalizedId}, map has it: ${map.has(normalizedId)}`,
+      );
+      if (!map.has(normalizedId)) {
+        map.set(normalizedId, order);
+        console.log(`✅ Added order ID: ${normalizedId}`);
+      } else {
+        console.log(`❌ Skipped duplicate order ID: ${normalizedId}`);
       }
-      return uniqueOrders;
-    }, [])
-    .toSorted((a, b) => b.totalWithTax - a.totalWithTax); // ES2023+ non-mutating sort
+      return map;
+    }, new Map());
 
-  // 4. Calculate statistics using reduce (SAFE FOR EMPTY ARRAYS)
+  // Convert Map to array
+  const processedOrdersArray = Array.from(deduplicatedMap.values());
+
+  // ✅ SAFE SORTING: Sort by totalWithTax descending
+  const processedOrders = processedOrdersArray.toSorted
+    ? processedOrdersArray.toSorted((a, b) => b.totalWithTax - a.totalWithTax)
+    : [...processedOrdersArray].sort((a, b) => b.totalWithTax - a.totalWithTax);
+  console.log("Deduplicated map size:", deduplicatedMap.size);
+  console.log("Processed orders length:", processedOrders.length);
+  console.log(
+    "Order IDs:",
+    processedOrders.map((o) => o.id),
+  );
+
+  // 4. Calculate statistics (SAFE FOR EMPTY ARRAYS)
   const statistics = processedOrders.reduce(
     (acc, order, index, array) => {
       acc.totalRevenue += order.totalWithTax;
@@ -86,14 +104,14 @@ export const processOrders = (orders) => {
     },
     {
       totalRevenue: 0,
-      largestOrder: null, // Critical: initialized to null for empty arrays
+      largestOrder: null,
       smallestOrder: null,
       customerIds: new Set(),
       orderCountByCategory: {},
     },
   );
 
-  // 5. Calculate additional metrics (HANDLES EMPTY ARRAYS)
+  // 5. Calculate additional metrics
   const averageOrderValue =
     processedOrders.length > 0
       ? statistics.totalRevenue / processedOrders.length
@@ -106,34 +124,25 @@ export const processOrders = (orders) => {
   );
   const orderTotals = processedOrders.map((order) => order.totalWithTax);
 
-  // 6. Calculate total tax collected (SAFE FOR EMPTY ARRAYS)
+  // 6. Calculate total tax collected
   let totalTaxCollected = 0;
   for (const order of processedOrders) {
     totalTaxCollected += order.taxAmount;
     if (totalTaxCollected > 10000) break;
   }
 
-  // 7. RETURN CONSISTENT STRUCTURE FOR ALL CASES (fixes missing properties)
+  // 7. RETURN CONSISTENT STRUCTURE
   return {
-    // Core metrics required by tests
     totalRevenue: Number(statistics.totalRevenue.toFixed(2)),
     averageOrderValue: Number(averageOrderValue.toFixed(2)),
-    orderCount: processedOrders.length, // CRITICAL: Always present (was missing in early return)
-
-    // Processed data
+    orderCount: processedOrders.length,
     processedOrders,
-
-    // Order analysis
-    largestOrder: statistics.largestOrder, // null for empty arrays
+    largestOrder: statistics.largestOrder,
     smallestOrder: statistics.smallestOrder,
     firstLargeOrder,
-
-    // Boolean flags required by tests
-    hasLargeOrders, // false for empty arrays
+    hasLargeOrders,
     allOrdersHaveCustomer,
     isEmpty: processedOrders.length === 0,
-
-    // Additional metrics
     totalTaxCollected: Number(totalTaxCollected.toFixed(2)),
     uniqueCustomers: statistics.customerIds.size,
     orderCountByCategory: statistics.orderCountByCategory,
@@ -142,7 +151,7 @@ export const processOrders = (orders) => {
   };
 };
 
-// Utility functions remain unchanged (no fixes needed)
+// Utility functions
 export const validateAndProcessOrders = (orders) => {
   try {
     return {

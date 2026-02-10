@@ -86,6 +86,7 @@ describe("processOrders - Original Behavior Compatibility", () => {
     ];
 
     const result = processOrders(orders);
+    console.log("Processed orders in test:", result.processedOrders);
     expect(result.orderCount).toBe(2); // Duplicate removed
     expect(result.processedOrders.map((o) => o.id)).toEqual([1, 2]);
   });

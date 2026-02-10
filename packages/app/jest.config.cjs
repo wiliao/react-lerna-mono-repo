@@ -1,36 +1,24 @@
 /** @type {import('jest').Config} */
 module.exports = {
   testEnvironment: "node",
-
-  // Transform configuration - handle JS and TS separately
   transform: {
-    // TypeScript files: use ts-jest
     "^.+\\.tsx?$": [
       "ts-jest",
       {
         useESM: true,
         tsconfig: "./tsconfig.json",
-        diagnostics: {
-          warnOnly: true,
-          ignoreCodes: [151002], // Suppress hybrid module kind warning
-        },
+        diagnostics: { warnOnly: true, ignoreCodes: [151002] },
       },
     ],
-    // JavaScript files: use babel-jest for ESM compatibility
     "^.+\\.jsx?$": ["babel-jest", { configFile: false }],
   },
-
-  // Handle ESM module resolution (.js imports should resolve to .ts/.js sources)
-  moduleNameMapper: {
-    "^(\\.\\/.+)\\.js$": "$1",
-  },
-
-  // Extensions Jest should resolve
+  moduleNameMapper: { "^(\\.{1,2}/.*)\\.js$": "$1" },
+  extensionsToTreatAsEsm: [".ts"],
   moduleFileExtensions: ["ts", "js", "json", "node"],
 
-  // Test file patterns
-  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+  // CRITICAL: Prevent Jest from discovering Playwright tests
+  testPathIgnorePatterns: ["/node_modules/", "/tests/"],
 
-  // Only .ts needs explicit ESM treatment
-  extensionsToTreatAsEsm: [".ts"],
+  // Test patterns (now safe with ignore pattern above)
+  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
 };
