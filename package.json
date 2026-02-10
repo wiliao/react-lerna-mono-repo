@@ -9,8 +9,6 @@
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
     "test": "lerna run test",
-    "test:app": "npm test -w @tuomo/app",
-    "test:app:no-cache": "npm run test:no-cache -w @tuomo/app",
     "test:watch": "lerna run test:watch --parallel",
     "test:app:clean": "node -e \"const fs=require('fs'); ['./node_modules/.cache', './packages/app/node_modules/.cache', './.cache'].forEach(p => { try { fs.rmSync(p, {recursive:true, force:true}); } catch(e) {} })\" && node --experimental-vm-modules ./packages/app/node_modules/jest/bin/jest.js --no-cache",
     "lint": "lerna run lint",
