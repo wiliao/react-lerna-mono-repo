@@ -23,8 +23,12 @@
     "lerna:list:long": "lerna list --all --long",
     "lerna:list:graph": "lerna list --all --graph",
     "lerna:check": "lerna list --all --long && lerna list --all --graph",
-    "clean": "rimraf node_modules/.cache packages/*/node_modules/.cache packages/*/{coverage,playwright-report,test-results,.eslintcache}",
-    "clean:all": "rimraf node_modules packages/*/node_modules",
+    "clean:cache": "rimraf node_modules/.cache packages/app/node_modules/.cache packages/common/node_modules/.cache packages/web/node_modules/.cache",
+    "clean:coverage": "rimraf packages/app/coverage packages/common/coverage packages/web/coverage",
+    "clean:playwright": "rimraf packages/app/playwright-report packages/app/test-results",
+    "clean:eslint": "rimraf packages/app/.eslintcache packages/common/.eslintcache packages/web/.eslintcache",
+    "clean": "npm run clean:cache && npm run clean:coverage && npm run clean:playwright && npm run clean:eslint",
+    "clean:all": "rimraf node_modules packages/app/node_modules packages/common/node_modules packages/web/node_modules",
     "clean:install": "npm run clean:all && npm install"
   },
   "devDependencies": {
