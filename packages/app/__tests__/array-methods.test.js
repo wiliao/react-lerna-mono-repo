@@ -11,6 +11,13 @@ import {
   orderAnalysisExample,
 } from "../src/array-methods.js";
 
+console.log("Module path:", import.meta.url);
+console.log(
+  "processOrders function:",
+  processOrders.toString().substring(0, 200),
+);
+console.log("Function length:", processOrders.toString().length);
+
 // Helper for deep equality without mutation
 const clone = (obj) => JSON.parse(JSON.stringify(obj));
 

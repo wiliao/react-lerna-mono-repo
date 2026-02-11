@@ -1,6 +1,7 @@
 {
   "name": "@tuomo/root",
   "private": true,
+  "version": "1.0.0",
   "workspaces": [
     "packages/*"
   ],
@@ -10,12 +11,25 @@
     "dev": "lerna run dev --parallel",
     "test": "lerna run test",
     "test:watch": "lerna run test:watch --parallel",
-    "test:app:clean": "node -e \"const fs=require('fs'); ['./node_modules/.cache', './packages/app/node_modules/.cache', './.cache'].forEach(p => { try { fs.rmSync(p, {recursive:true, force:true}); } catch(e) {} })\" && node --experimental-vm-modules ./packages/app/node_modules/jest/bin/jest.js --no-cache",
+    "test:coverage": "lerna run test:coverage",
+    "test:e2e": "lerna run test:e2e",
+    "test:app": "lerna run test --scope=@tuomo/app",
+    "test:app:clean": "npm run clean && lerna run test:no-cache --scope=@tuomo/app",
     "lint": "lerna run lint",
-    "format": "lerna run format"
+    "lint:fix": "lerna run lint:fix",
+    "format": "lerna run format",
+    "format:check": "lerna run format:check",
+    "lerna:list": "lerna list --all",
+    "lerna:list:long": "lerna list --all --long",
+    "lerna:list:graph": "lerna list --all --graph",
+    "lerna:check": "lerna list --all --long && lerna list --all --graph",
+    "clean": "rimraf node_modules/.cache packages/*/node_modules/.cache packages/*/{coverage,playwright-report,test-results,.eslintcache}",
+    "clean:all": "rimraf node_modules packages/*/node_modules",
+    "clean:install": "npm run clean:all && npm install"
   },
   "devDependencies": {
-    "lerna": "^8.2.4"
-  },
-  "version": "0.0.0"
+    "cross-env": "^7.0.3",
+    "lerna": "^8.2.4",
+    "rimraf": "^6.1.2"
+  }
 }

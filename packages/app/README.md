@@ -155,4 +155,11 @@ This isn't over-engineering – it's **professional scaffolding for deliberate p
 ## How to run test
 
 #### From MONOREPO ROOT (critical!)
-npm test -w @tuomo/app -- __tests__/async.test.js
+
+npm test -w @tuomo/app -- **tests**/async.test.js
+
+npm test -w @tuomo/app -- **tests**/array-methods.test.js
+
+npx lerna run test --scope=@tuomo/app -- -- **tests**/array-methods.test.js --no-cache --verbose
+
+node --experimental-vm-modules ./packages/app/node_modules/jest/bin/jest.js ./packages/app/**tests**/array-methods.test.js --no-cache
