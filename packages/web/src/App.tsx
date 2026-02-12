@@ -1,6 +1,4 @@
-import React from "react";
 import { Button } from "@tuomo/common";
-import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
