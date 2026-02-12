@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { fetchUser, fetchWithRetry } from "../src/async.js";
+import { fetchUser, fetchWithRetry } from "../../src/async.js";
 
 test.describe("Async Utilities - Unit Tests", () => {
   test("fetchUser returns user data with simulated network delay", async () => {

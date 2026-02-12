@@ -9,7 +9,7 @@
   "scripts": {
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
-    "test": "lerna run test",
+    "test": "lerna run test --stream",
     "test:watch": "lerna run test:watch --parallel",
     "test:coverage": "lerna run test:coverage",
     "test:e2e": "lerna run test:e2e",
