@@ -1,11 +1,13 @@
-import React, { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 
 type Props = {
   textColor: string;
 };
 
-const Button: FC<PropsWithChildren<Props>> = (props) => {
-  return <button style={{ color: props.textColor }}>{props.children}</button>;
+// Named export with 'export' keyword
+export const Button: FC<PropsWithChildren<Props>> = ({
+  textColor,
+  children,
+}) => {
+  return <button style={{ color: textColor }}>{children}</button>;
 };
-
-export default Button;
